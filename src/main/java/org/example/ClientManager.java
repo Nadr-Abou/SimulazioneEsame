@@ -3,19 +3,17 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameModel {
-    private static GameModel INSTANCE;
-    List<ClientHandler> clientList = new ArrayList<>();
-    private MyTimer myTimer;
+public class ClientManager {
+    private static ClientManager INSTANCE;
+    List<ClientHandler> clientList = new ArrayList<ClientHandler>();
 
-    private GameModel() {
-        this.myTimer = new MyTimer();
-        this.myTimer.start();
+
+    private ClientManager() {
     }
 
-    public static GameModel getInstance() {
+    public static ClientManager getInstance() {
         if(INSTANCE == null) {
-            INSTANCE = new GameModel();
+            INSTANCE = new ClientManager();
         }
 
         return INSTANCE;
@@ -29,9 +27,5 @@ public class GameModel {
         this.clientList.remove(client);
         System.out.println("client connected : " + this.clientList.size());
     }
-    void sendToAll(String msg){
-        for (ClientHandler c : this.clientList){
-            c.sendMsg(msg);
-        }
-    }
+
 }

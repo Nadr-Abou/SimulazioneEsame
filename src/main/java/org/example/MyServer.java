@@ -1,10 +1,7 @@
 package org.example;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -40,7 +37,7 @@ public class MyServer
             }
 
             ClientHandler clientHandler = new ClientHandler(clientSocket);
-            GameModel.getInstance().addClient(clientHandler);
+            ClientManager.getInstance().addClient(clientHandler);
             clientHandler.start();
         }
     }

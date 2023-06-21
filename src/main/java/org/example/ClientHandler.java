@@ -1,20 +1,22 @@
 package org.example;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Locale;
-
-import com.google.gson.Gson;
 
 
 public class ClientHandler extends Thread{
 
     private Socket clientSocket;
     private PrintWriter out = null; // allocate to write answer to client.
+    static CarManager carManager = new CarManager();
+    String answer;
 
 
     public ClientHandler(Socket clientSocket) {
@@ -45,19 +47,37 @@ public class ClientHandler extends Thread{
         }
 
         String s = "";
+        Command cmd = null;
         Gson g = new Gson();
 
-        while(true){
+        while(true) {
             try {
                 if ((s = in.readLine()) == null) {
                     break;
                 }
-            }catch (IOException e){
+            } catch (IOException e) {
                 return false;
             }
-            System.out.println(s);
-            GameModel.getInstance().sendToAll(s);
-            out.println(s.toUpperCase());
+            try {
+                cmd = new Command().fromMethod(s);
+            } catch (Exception e) {
+                out.flush();
+                out.println("Serve un json");
+                continue;
+            }
+
+
+            if (cmd != null && cmd.cmd.equals("all")) {
+                answer = new Answer(true, carManager.getAll()).answerJSON();
+            } else if (cmd != null && cmd.cmd.equals("more_expensive")) {
+                answer = new Answer(true, carManager.getMoreExpensive()).answerJSON();
+            } else if (cmd != null && cmd.cmd.equals("all_sorted")) {
+                answer = new Answer(true, carManager.getSorted()).answerJSON();
+            } else {
+                answer = new Answer(false, "Comando sconosciuto").answerJSON();
+            }
+            out.flush();
+            out.println(answer);
         }
         return true;
     }
@@ -66,13 +86,8 @@ public class ClientHandler extends Thread{
     public void run() {
         manage();
 
-        GameModel.getInstance().removeClient(this);
+        ClientManager.getInstance().removeClient(this);
     }
 
-    void sendMsg(String msg){
-        if(out!=null){
-            out.println(msg);
-            out.flush();
-        }
-    }
+
 }
