@@ -19,7 +19,7 @@ public class CarManager {
         return carList;
     }
 
-    public List<Car> getMoreExpensive() {
+    public Car getMoreExpensive() {
         List<Car> nuovaLista = new ArrayList<>();
         List<Car> varLista = new ArrayList<>(carList);
         while (varLista.size() != 0) {
@@ -34,7 +34,7 @@ public class CarManager {
             nuovaLista.add(varLista.get(maxIndex));
             varLista.remove(maxIndex);
         }
-        return nuovaLista;
+        return nuovaLista.get(0);
     }
 
     public List<Car> getSorted() {

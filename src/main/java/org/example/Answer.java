@@ -8,6 +8,7 @@ public class Answer {
     boolean result;
     String msg;
     List<Car> cars;
+    Car car;
 
     public Answer(boolean result, List<Car> cars) {
         this.result = result;
@@ -18,6 +19,11 @@ public class Answer {
         this.result = result;
         this.msg = msg;
         this.cars = cars;
+    }
+
+    public Answer(boolean result, Car car) {
+        this.result = result;
+        this.car = car;
     }
 
 
