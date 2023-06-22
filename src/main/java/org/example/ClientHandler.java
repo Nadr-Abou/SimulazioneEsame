@@ -62,7 +62,7 @@ public class ClientHandler extends Thread{
                 cmd = new Command().fromMethod(s);
             } catch (Exception e) {
                 out.flush();
-                out.println("Serve un json");
+                out.println(new Answer(false, "Serve un JSON").answerJSON());
                 continue;
             }
 

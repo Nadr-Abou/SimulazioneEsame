@@ -18,7 +18,6 @@ public class Answer {
     public Answer(boolean result, String msg) {
         this.result = result;
         this.msg = msg;
-        this.cars = cars;
     }
 
     public Answer(boolean result, Car car) {
